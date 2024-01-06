@@ -250,7 +250,7 @@ resource "aws_lex_slot_type" "flower_types" {
     value = "tulips"
   }
 
-  enumeration_value { value = "roses" }
+    enumeration_value {value = "roses"}
 
   name                     = "FlowerTypes"
   value_selection_strategy = "ORIGINAL_VALUE"
