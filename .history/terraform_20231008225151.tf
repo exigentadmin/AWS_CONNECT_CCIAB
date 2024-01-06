@@ -3,7 +3,7 @@ terraform {
     hostname     = "app.terraform.io"
     organization = "exigentTech"
     workspaces {
-      name = "AWS_CONNECT_CCIAB"
+      name = "terraformLab_udemy"
     }
   }
   required_version = ">= 1.0.0"
