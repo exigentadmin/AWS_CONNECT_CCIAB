@@ -6,11 +6,11 @@ locals {
   project     = "Call Center In A Box"
   description = "This is built for the Call Center In A Box Project"
 } #aws connect instance
-resource "aws_connect_instance" "AWS-CONNECT-CCIAB" {
+resource "aws_connect_instance" "AWS_CONNECT_CCIAB" {
   # (resource arguments)
   identity_management_type       = "CONNECT_MANAGED"
   inbound_calls_enabled          = true
-  instance_alias                 = "AWS-CONNECT-CCIAB"
+  instance_alias                 = "AWS_CONNECT_CCIAB"
   multi_party_conference_enabled = true
   outbound_calls_enabled         = true
   contact_flow_logs_enabled      = true
@@ -38,6 +38,10 @@ resource "aws_iam_role" "lambda-iam" {
         }
     ]
 }
+  tags = {
+    description = locals.description
+    project = locals.project
+  }
     EOF
 }
 
@@ -48,6 +52,10 @@ resource "aws_lambda_function" "lambda" {
   handler          = "lambda.lambda_handler"
   source_code_hash = data.archive_file.lambda-zip.output_base64sha256
   runtime          = "python3.8"
+    tags = {
+    description = locals.description
+    project = locals.project
+  }
 }
 
 resource "aws_lexv2models_bot" "how_can_I_help_you" {
@@ -57,6 +65,10 @@ resource "aws_lexv2models_bot" "how_can_I_help_you" {
   }
   idle_session_ttl_in_seconds = 10
   role_arn                    = "arn:aws:iam::433162890764:role/aws-service-role/lexv2.amazonaws.com/AWSServiceRoleForLexV2Bots_2UUS7NRDB"
+    tags = {
+    description = locals.description
+    project = locals.project
+  }
 }
 
 #module to build lex bot

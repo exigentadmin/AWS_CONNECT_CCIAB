@@ -38,6 +38,10 @@ resource "aws_iam_role" "lambda-iam" {
         }
     ]
 }
+  tags = {
+    description = locals.description
+    project = locals.project
+  }
     EOF
 }
 
@@ -48,6 +52,10 @@ resource "aws_lambda_function" "lambda" {
   handler          = "lambda.lambda_handler"
   source_code_hash = data.archive_file.lambda-zip.output_base64sha256
   runtime          = "python3.8"
+    tags = {
+    description = locals.description
+    project = locals.project
+  }
 }
 
 resource "aws_lexv2models_bot" "how_can_I_help_you" {
@@ -57,6 +65,10 @@ resource "aws_lexv2models_bot" "how_can_I_help_you" {
   }
   idle_session_ttl_in_seconds = 10
   role_arn                    = "arn:aws:iam::433162890764:role/aws-service-role/lexv2.amazonaws.com/AWSServiceRoleForLexV2Bots_2UUS7NRDB"
+    tags = {
+    description = locals.description
+    project = locals.project
+  }
 }
 
 #module to build lex bot

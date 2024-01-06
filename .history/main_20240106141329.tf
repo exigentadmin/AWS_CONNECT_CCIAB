@@ -1,16 +1,22 @@
 provider "aws" {
   region = "us-east-1"
 }
-
-locals {
-  project     = "Call Center In A Box"
-  description = "This is built for the Call Center In A Box Project"
-} #aws connect instance
-resource "aws_connect_instance" "AWS-CONNECT-CCIAB" {
+#aws connect instance
+resource "aws_connect_instance" "AWS_CONNECT_CCIAB" {
   # (resource arguments)
   identity_management_type       = "CONNECT_MANAGED"
   inbound_calls_enabled          = true
-  instance_alias                 = "AWS-CONNECT-CCIAB"
+  instance_alias                 = "AWS_CONNECT_CCIAB"
+  multi_party_conference_enabled = true
+  outbound_calls_enabled         = true
+  contact_flow_logs_enabled      = true
+}
+
+resource "aws_connect_instance" "young-grizzly" {
+  # (resource arguments)
+  identity_management_type       = "CONNECT_MANAGED"
+  inbound_calls_enabled          = true
+  instance_alias                 = "young-grizzly"
   multi_party_conference_enabled = true
   outbound_calls_enabled         = true
   contact_flow_logs_enabled      = true
@@ -38,6 +44,7 @@ resource "aws_iam_role" "lambda-iam" {
         }
     ]
 }
+
     EOF
 }
 
@@ -61,7 +68,10 @@ resource "aws_lexv2models_bot" "how_can_I_help_you" {
 
 #module to build lex bot
 module "amazon_lexbot" {
-  source = "./modules/amazon_lexbot"
+    source = "./modules/amazon_lexbot"
+
+
+
 }
 
 # Amazon Lex Bot
