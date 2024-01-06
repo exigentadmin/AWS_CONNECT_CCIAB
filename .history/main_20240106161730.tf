@@ -133,20 +133,15 @@ resource "aws_lex_intent" "order_flowers_intent" {
       content      = "Okay, your {FlowerType} will be ready for pickup by {PickupTime} on {PickupDate}.  Does this sound okay?"
       content_type = "PlainText"
     }
-
-    message {
-      content      = "Okay, your {FlowerType} will be ready for pickup by {PickupTime} on {PickupDate}, and will cost [Price] dollars.  Does this sound okay?"
-      content_type = "PlainText"
-    }
   }
 
-  description = "Intent to order a bouquet of flowers for pick up"
+  create_version = false
+  name           = "OrderFlowers"
+  description    = "Intent to order a bouquet of flowers for pick up"
 
   fulfillment_activity {
     type = "ReturnIntent"
   }
-
-  name = "OrderFlowers"
 
   rejection_statement {
     message {
@@ -156,8 +151,8 @@ resource "aws_lex_intent" "order_flowers_intent" {
   }
 
   sample_utterances = [
-    "I would like to pick up flowers",
     "I would like to order some flowers",
+    "I would like to pick up flowers",
   ]
 
   slot {
@@ -170,8 +165,8 @@ resource "aws_lex_intent" "order_flowers_intent" {
     ]
 
     slot_constraint   = "Required"
-    slot_type         = aws_lex_slot_type.flower_types.name
-    slot_type_version = aws_lex_slot_type.flower_types.version
+    slot_type         = "FlowerTypes"
+    slot_type_version = "$$LATEST"
 
     value_elicitation_prompt {
       max_attempts = 2
@@ -184,11 +179,17 @@ resource "aws_lex_intent" "order_flowers_intent" {
   }
 
   slot {
-    description     = "The date to pick up the flowers"
-    name            = "PickupDate"
-    priority        = 2
-    slot_constraint = "Required"
-    slot_type       = "AMAZON.DATE"
+    description = "The date to pick up the flowers"
+    name        = "PickupDate"
+    priority    = 2
+
+    sample_utterances = [
+      "I would like to order {FlowerType}",
+    ]
+
+    slot_constraint   = "Required"
+    slot_type         = "AMAZON.DATE"
+    slot_type_version = "$$LATEST"
 
     value_elicitation_prompt {
       max_attempts = 2
@@ -197,28 +198,24 @@ resource "aws_lex_intent" "order_flowers_intent" {
         content      = "What day do you want the {FlowerType} to be picked up?"
         content_type = "PlainText"
       }
-
-      message {
-        content      = "Pick up the {FlowerType} at {PickupTime} on what day?"
-        content_type = "PlainText"
-      }
     }
   }
 
   slot {
-    description     = "The time to pick up the flowers"
-    name            = "PickupTime"
-    priority        = 3
-    slot_constraint = "Required"
-    slot_type       = "AMAZON.TIME"
+    description = "The time to pick up the flowers"
+    name        = "PickupTime"
+    priority    = 3
+
+    sample_utterances = [
+      "I would like to order {FlowerType}",
+    ]
+
+    slot_constraint   = "Required"
+    slot_type         = "AMAZON.TIME"
+    slot_type_version = "$$LATEST"
 
     value_elicitation_prompt {
       max_attempts = 2
-
-      message {
-        content      = "At what time do you want the {FlowerType} to be picked up?"
-        content_type = "PlainText"
-      }
 
       message {
         content      = "Pick up the {FlowerType} at what time on {PickupDate}?"
@@ -249,8 +246,6 @@ resource "aws_lex_slot_type" "flower_types" {
 
     value = "tulips"
   }
-
-  enumeration_value { value = "roses" }
 
   name                     = "FlowerTypes"
   value_selection_strategy = "ORIGINAL_VALUE"
