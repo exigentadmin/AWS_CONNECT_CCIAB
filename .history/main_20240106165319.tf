@@ -74,7 +74,7 @@ resource "aws_lexv2models_bot" "how_can_I_help_you" {
   data_privacy {
     child_directed = "false"
   }
-  idle_session_ttl_in_seconds = 60
+  idle_session_ttl_in_seconds = 10
   role_arn                    = "arn:aws:iam::433162890764:role/aws-service-role/lexv2.amazonaws.com/AWSServiceRoleForLexV2Bots_2UUS7NRDB"
 }
 
