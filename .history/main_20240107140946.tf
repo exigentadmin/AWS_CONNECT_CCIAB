@@ -31,7 +31,7 @@ resource "aws_connect_instance" "AWS-CONNECT-CCIAB-DEMO" {
   # (resource arguments)
   identity_management_type       = "CONNECT_MANAGED"
   inbound_calls_enabled          = true
-  instance_alias                 = "aws-connect-cciab-demo"
+  instance_alias                 = "AWS-CONNECT-CCIAB-DEMO"
   multi_party_conference_enabled = true
   outbound_calls_enabled         = true
   contact_flow_logs_enabled      = true

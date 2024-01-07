@@ -26,12 +26,16 @@ locals {
   description = "This is built for the Call Center In A Box Project"
 }
 
+import {
+  to = aws_lexv2models_bot.how_can_I_help_you
+  id = "bot-id-SZTNLTWDOX"
+}
 #aws connect instance
 resource "aws_connect_instance" "AWS-CONNECT-CCIAB-DEMO" {
   # (resource arguments)
   identity_management_type       = "CONNECT_MANAGED"
   inbound_calls_enabled          = true
-  instance_alias                 = "aws-connect-cciab-demo"
+  instance_alias                 = "AWS-CONNECT-CCIAB-DEMO"
   multi_party_conference_enabled = true
   outbound_calls_enabled         = true
   contact_flow_logs_enabled      = true
