@@ -21,16 +21,6 @@ data "aws_lex_slot_type" "flower_types" {
   name    = aws_lex_slot_type.flower_types.name
   version = aws_lex_slot_type.flower_types.version
 }
-
-data "aws_connect_routing_profile" "Basic-Routing-Profile" {
-  instance_id = aws_connect_instance.AWS-CONNECT-CCIAB-DEMO.id
-  name        = "Basic Routing Profile"
-}
-
-data "aws_connect_security_profile" "agent" {
-  instance_id = aws_connect_instance.AWS-CONNECT-CCIAB-DEMO.id
-  name        = "Agent"
-}
 #MODULES
 #module to build lex bot
 #module to build connect user
@@ -269,27 +259,22 @@ resource "aws_lex_slot_type" "flower_types" {
 }
 
 resource "aws_connect_user" "example" {
-  instance_id        = aws_connect_instance.AWS-CONNECT-CCIAB-DEMO.id
-  name               = "ygrizzly"
+  instance_id        = aws_connect_instance.example.id
+  name               = "example"
   password           = "Password123"
-  routing_profile_id = data.aws_connect_routing_profile.Basic-Routing-Profile.id
+  routing_profile_id = aws_connect_routing_profile.example.routing_profile_id
 
   security_profile_ids = [
-    data.aws_connect_security_profile.agent.id
+    aws_connect_security_profile.example.security_profile_id
   ]
 
   identity_info {
-    first_name = "young"
-    last_name  = "grizzly"
+    first_name = "example"
+    last_name  = "example2"
   }
 
   phone_config {
     after_contact_work_time_limit = 0
     phone_type                    = "SOFT_PHONE"
   }
-}
-
-output "agent-login" {
-  description = "Outputs the url of the agent login"
-  value       = "https://${aws_connect_instance.AWS-CONNECT-CCIAB-DEMO.instance_alias}.my.connect.aws/ccp-v2/"
 }
