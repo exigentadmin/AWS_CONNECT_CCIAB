@@ -291,5 +291,5 @@ resource "aws_connect_user" "example" {
 
 output "agent-login" {
   description = "Outputs the url of the agent login"
-  value       = "https://${aws_connect_instance.AWS-CONNECT-CCIAB-DEMO.instance_alias}.my.connect.aws/ccp-v2/"
+  value = "https://${aws_connect_instance.AWS-CONNECT-CCIAB-DEMO.instance_alias}.my.connect.aws/ccp-v2/"
 }
