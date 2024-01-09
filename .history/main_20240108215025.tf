@@ -31,11 +31,6 @@ data "aws_connect_security_profile" "agent" {
   instance_id = aws_connect_instance.AWS-CONNECT-CCIAB-DEMO.id
   name        = "Agent"
 }
-
-data "aws_connect_contact_flow" "test" {
-  instance_id     = aws_connect_instance.AWS-CONNECT-CCIAB-DEMO.id
-  contact_flow_id = "c002e6c1-3ec2-47a6-909b-6e327a4adc0b"
-}
 #MODULES
 #module to build lex bot
 #module to build connect user
@@ -322,19 +317,17 @@ resource "aws_connect_phone_number" "inbound-did" {
   description  = "Inbound DID"
 }
 
-resource "aws_connect_contact_flow" "test-from-terraform" {
-  instance_id = "5c70f824-4025-4b17-96e6-096dfd944787"
-  name        = "test create from terraform"
-  description = "Loaded from Terraform"
-  type        = "CONTACT_FLOW"
-  filename    = "loadfromterraform.json"
+resource "aws_connect_contact_flow" "name" {
+  instance_id  = "5c70f824-4025-4b17-96e6-096dfd944787"
+  name = "test"
+  
 }
 resource "aws_connect_contact_flow" "sample-inbound-flow" {
-  instance_id = "5c70f824-4025-4b17-96e6-096dfd944787"
-  name        = "Sample inbound flow (first contact experience)"
-  description = "Test Contact Flow Description"
-  type        = "CONTACT_FLOW"
-  filename    = "contact_flow.json"
+  instance_id  = "5c70f824-4025-4b17-96e6-096dfd944787"
+  name         = "Sample inbound flow (first contact experience)"
+  description  = "Test Contact Flow Description"
+  type         = "CONTACT_FLOW"
+  filename     = "contact_flow.json"
 }
 import {
   to = aws_connect_contact_flow.sample-inbound-flow
